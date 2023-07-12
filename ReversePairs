@@ -1,0 +1,66 @@
+#include <bits/stdc++.h> 
+
+int countPairs(vector<int>&nums ,int s,int mid ,int e ){
+    int i=s;
+    int j=mid+1;
+    int ans=0;
+
+    for(i=s;i<=mid;i++){
+
+        while(j<=e&& nums[i]>2*1LL*nums[j]){
+            j++;
+        }
+
+        ans += j-mid-1;
+    }
+    return ans;
+}
+
+void merge(vector<int>& nums ,int s,int mid ,int e){
+
+    int i=s;
+    int j=mid+1;
+    int n=e-s+1;
+    vector<int>temp(n );
+    int k=0;
+
+    while(i<=mid&&j<=e){
+
+        if(nums[i]<=nums[j]){
+            temp[k++]=nums[i++];
+        }else{
+            temp[k++]=nums[j++];
+        }
+    }
+    while(i<=mid){
+        temp[k++]= nums[i++];
+    }
+    while(j<=e){
+       temp[k++]= nums[j++];
+    }
+    k=0;
+
+    for( int x=s;x<=e;x++){
+        nums[x]=temp[k++];
+    }
+
+}
+
+int mergeSort(vector<int>& nums ,int s,int e){
+    int count=0;
+    if(s>=e) return count ;
+
+    int mid= s+(e-s)/2;
+
+   count+= mergeSort(nums,s,mid);
+   count+= mergeSort(nums,mid+1,e);
+   count += countPairs(nums,s,mid,e);
+   merge(nums,s,mid,e);
+
+    return count;
+}
+int reversePairs(vector<int> &arr, int n){
+        int ans=0;
+      ans = mergeSort(arr,0,n-1); 
+       return ans;
+}

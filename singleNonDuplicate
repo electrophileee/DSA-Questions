@@ -1,0 +1,10 @@
+int singleNonDuplicate(vector<int>& arr)
+{
+	int num=0;
+
+	for(auto it:arr){
+		num = num^it;
+	}
+
+	return num;
+}

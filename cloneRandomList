@@ -1,0 +1,78 @@
+#include <bits/stdc++.h>
+
+
+void insertAtTail(LinkedListNode<int>* &cloned ,LinkedListNode<int>* &cloned_tail,int value){
+    
+    LinkedListNode<int>* newNode = new LinkedListNode<int>(value);
+
+    if(cloned==NULL)
+    {  
+      cloned=newNode;
+      cloned_tail=cloned; 
+      return; 
+    }else{
+        
+        cloned_tail->next=newNode;
+        cloned_tail= newNode;
+    }
+}
+LinkedListNode<int> *cloneRandomList(LinkedListNode<int> *head)
+{
+        LinkedListNode<int>* cloned_head= NULL;
+        LinkedListNode<int>* cloned_tail=NULL;
+        LinkedListNode<int>*ptr1=head;
+        while(ptr1!=NULL){
+           insertAtTail(cloned_head ,cloned_tail,ptr1->data);
+           ptr1=ptr1->next;
+        }
+
+        ptr1= head;
+        LinkedListNode<int>*next1=NULL;
+        LinkedListNode<int>*next2=NULL;
+
+        LinkedListNode<int>*ptr2=cloned_head;
+
+        while(ptr1!=NULL&&ptr2!=NULL)
+        {
+          next1=ptr1->next;
+          next2=ptr2->next;
+          ptr1->next=ptr2;
+          ptr2->next=next1;
+          ptr1=next1;
+          ptr2=next2;     
+        }
+
+
+         ptr1= head;
+       
+         while(ptr1!=NULL)
+         {
+             if(ptr1->next!=NULL){
+                 if(ptr1->random!=NULL){
+             ptr1->next->random = ptr1->random->next;
+             }else{
+              ptr1->next->random = ptr1->random;
+             }
+             }
+
+             ptr1=ptr1->next->next;
+         }
+         
+         ptr1= head;
+        ptr2=cloned_head;
+
+        while(ptr1!=NULL&&ptr2!=NULL)
+        {
+           ptr1->next= ptr2->next;
+           ptr1=ptr1->next;
+
+          if(ptr1!=NULL){
+           ptr2->next=ptr1->next;
+            }
+           ptr2=ptr2->next;
+        }
+
+      
+
+     return cloned_head;
+}

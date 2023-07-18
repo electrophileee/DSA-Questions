@@ -1,0 +1,28 @@
+
+#include<bits/stdc++.h>
+vector<vector<int>>ans;
+void solve(int ind,int sum , int k,vector<int>&arr ,vector<int>&temp){
+   
+    if(ind==arr.size()){
+       if(sum==k){
+           ans.push_back(temp);
+       }
+        return;
+    }
+   
+        
+    
+    solve(ind+1,sum ,k,arr,temp);
+    
+      temp.push_back(arr[ind]);
+      solve(ind + 1,sum+arr[ind], k , arr, temp);
+      temp.pop_back();
+    
+}
+
+vector<vector<int>> findSubsetsThatSumToK(vector<int> arr, int n, int k)
+{
+    vector<int>temp;
+    solve(0,0,k,arr,temp);
+    return ans;
+}

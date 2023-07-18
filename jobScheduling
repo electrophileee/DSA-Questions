@@ -1,0 +1,26 @@
+#include <bits/stdc++.h> 
+#define pi pair<int,int>
+bool compare(pi &a,pi &b){
+    return a.second>b.second;
+}
+int jobScheduling(vector<vector<int>> &jobs)
+{
+        int ans=0;
+    vector <pi> v;
+    for(int i=0;i<jobs.size();i++) v.push_back({jobs[i][0],jobs[i][1]});
+    sort(v.begin(),v.end(),compare);
+    pi p = *max_element(v.begin(),v.end());
+    int slotSize = p.first;
+   
+    vector <int> slot(slotSize+1,-1);
+    for(int i=0;i<v.size();i++){
+        for(int j=v[i].first;j>0;j--){
+            if(slot[j]==-1){
+                slot[j]=v[i].first;
+                ans+=v[i].second;
+                break;
+            }
+        }
+    }
+    return ans;
+}

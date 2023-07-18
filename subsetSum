@@ -1,0 +1,21 @@
+#include<bits/stdc++.h>
+void solve(int ind,int sum ,vector<int>& nums,vector<int>& temp){
+    if(ind==nums.size()){
+        
+        temp.push_back(sum);
+        return;
+    }
+
+    solve(ind+1,sum, nums,temp);
+  
+    solve(ind+1,sum+nums[ind],nums,temp);
+    
+}
+vector<int> subsetSum(vector<int> &num){
+	vector<int>temp;  
+    
+    solve(0,0 ,num,temp);
+	sort(temp.begin(),temp.end());
+
+      return temp;	
+}

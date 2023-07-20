@@ -1,0 +1,52 @@
+
+#include<bits/stdc++.h>
+
+bool isPossible(int node,int col,vector<vector<int>>&adj,vector<int>&color ){
+    
+    for(auto it:adj[node]){
+        if(color[it]==col) return false;
+    }
+    
+    return true;
+}
+
+bool dfs(int node,int n,int m,vector<vector<int>>&adj,vector<int>&color){
+    if(node==n){
+        return true;
+    }
+    
+    for(int i=1;i<=m;i++){
+        if(isPossible(node,i,adj,color)){
+           color[node]=i;
+           if(dfs(node+1,n,m,adj,color)){
+               return true;
+           }
+           color[node]=0;
+        }
+    }
+    
+    return false;
+    
+}
+
+string graphColoring(vector<vector<int>> &mat, int m) {
+    int n=mat.size();
+   vector<vector<int>>adj(n);
+       vector<int>color(n,0);
+       
+       for(int i=0;i<n;i++){
+           for(int j=0;j<n;j++){
+               if(mat[i][j]){
+                   adj[i].push_back(j);
+                   adj[j].push_back(i);
+               }
+           }
+       }
+      
+           if(dfs(0,n,m,adj,color)){
+               return "YES";
+           }
+       
+       
+       return "NO";
+}

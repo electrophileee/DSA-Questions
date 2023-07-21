@@ -1,0 +1,72 @@
+#include<bits/stdc++.h>
+
+class Node{
+    public:
+    int key;
+    int val;
+    Node* prev;
+    Node*next;
+    Node(int key ,int val){
+         this->key=key;
+         this->val=val;
+         this->prev=NULL;
+         this->next=NULL;
+    }
+};
+
+class LRUCache {
+public:
+unordered_map<int,Node*>mp;
+int size;
+Node *head=new Node(0,0);
+Node *tail=new Node(0,0);
+    LRUCache(int capacity) {
+      size=capacity;
+      head->next=tail;
+      tail->prev=head;  
+    }
+
+    void insert(Node* curr){
+        curr->next=head->next;
+        head->next->prev=curr;
+        head->next=curr;
+        curr->prev=head;
+        mp[curr->key]=curr;
+    }
+
+    void remove(Node *curr){
+        mp.erase(curr->key);
+        curr->next->prev=curr->prev;
+        curr->prev->next=curr->next;
+    }
+    
+    int get(int key) {
+         if(mp.find(key)==mp.end()){
+             return -1;
+         }
+
+         Node *curr=mp[key];
+         remove(curr);
+         insert(curr);
+         return curr->val;
+    }
+    
+    void put(int key, int value) {
+        if(mp.find(key)!=mp.end()){
+            remove(mp[key]);
+        }
+
+        if(mp.size()==size){
+            remove(tail->prev);
+        }
+
+        insert(new Node(key,value));
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
